@@ -1,0 +1,63 @@
+<nav class="navbar " role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="#">
+        <div class="dropdown is-hoverable">
+          <div class="dropdown-trigger">
+            <button class="button" aria-haspopup="true" aria-controls="dropdown-menu2" >
+              <span class="icon is-small">
+                <img src="{{selectedImg}}">
+              </span>
+            </button>
+          </div>
+          <div class="dropdown-menu" id="dropdown-menu2" role="menu">
+            <div class="dropdown-content">
+              <a href = "#" class="dropdown-item" href="#" (click)="selectedBasket()">
+                <img src="../../assets/basketball.png">
+              </a>
+              <hr class="dropdown-divider">
+              <a href = "#" class="dropdown-item" href="#" (click)="selectedFootball()">
+                <img src="../../assets/football.png">
+              </a>
+              <hr class="dropdown-divider">
+              <a  href = "#" class="dropdown-item" href="#" (click)="selectedTennis()">
+                <img src="../../assets/tennis.png">
+              </a>
+            </div>
+          </div>
+        </div>    
+    </a>
+
+    <a role="button" class="navbar-burger" aria-expanded="false" data-target="navbarBasicExample" [ngClass]="{'is-active': isActive}" (click)="onClickBurger()">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu" [ngClass]="{'is-active' : isActive}">
+    <div class="navbar-start">
+      <a [routerLink]="navbar.url" class="navbar-item" *ngFor="let navbar of navbarItems">
+        {{navbar.title}}
+      </a>
+    </div>
+
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <div class="buttons" *ngIf="!isUserAuthenticated; else adminView">
+          <a class="button is-primary" [routerLink]="'/register'">
+            <strong>Sign up</strong>
+          </a>
+          <a class="button is-light" [routerLink]="'/log-in'">
+            Log in
+          </a>
+        </div>
+      </div>
+      <ng-template #adminView>
+        <div class="buttons">
+          <a class="button is-primary" [routerLink]="'/admin'"></a>
+          <strong>Admin</strong>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</nav>

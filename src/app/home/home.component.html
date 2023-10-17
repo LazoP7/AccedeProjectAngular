@@ -1,0 +1,74 @@
+<div class="columns is-mobile height = 100%" name = "mainColumn" >
+    <div class="column is-one-quarter has-background-light height = 100% is-mobile ">
+      <div class="my-google-map">
+        <google-map class="google-map" width="100%" height="375px" [options] = "mapOptions">
+          <map-marker *ngFor="let marker of markers" [position]="marker.position" [title]="marker.title" [options]="marker.options" (mapClick)="openLocationTT(marker.title)"></map-marker>
+        </google-map>
+      </div>
+    </div>
+    <div class="column is-multilane has-background-primary-light height 100%" name = "mainColumn">
+      <div class="selectedLocation">
+        {{selectedLocationName}}
+      </div>
+      <hr class = "main-divider">
+      <div *ngFor="let match of matches">
+        <nav class="panel">
+          <div class="panel-heading has-background-light">
+            {{ match.date | date:'MMM  dd, yyyy HH:mm' }} || {{match.locationName.name}}
+          </div>
+          <table class="table is-fullwidth">
+            <thead>
+              <tr>
+                <th>Match players</th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let player of match.players">
+              <tr>
+                {{player.name}} "{{player.username}}" {{player.surname}} ({{player.reputation}})
+              </tr>
+            </tbody>
+          </table>
+          
+          <div class="panel-block">
+            <div class="column height = 10px">
+              <button class="button is-link is-outlined is-fullwidth" (click)="joinMatch(match)">
+                Join match
+              </button>
+            </div>
+          </div>
+        </nav>
+        <hr class = "main-divider">
+      </div>
+    </div>
+    <div class="column is-one-quarter has-background-light 100%" name = "mainColumn">
+      <div class="find-a-match is-size-4 has-text-centered">
+        Find a match
+      </div>
+      <div class="location">
+        Location:
+        <div class="dropdown is-hoverable has-text-centered">
+          <div class="dropdown-trigger">
+            <button class="button-location" aria-haspopup="true" aria-controls="dropdown-menu">
+              <span class="location-show-name">{{selectedLocationName}}</span>
+              <span class="icon is-small">
+                <i class="fa-angle-down" aria-hidden="true"></i>
+              </span>
+            </button>
+          </div>
+          <div class="dropdown-menu" id="dropdown-menu" role="menu">
+            <div class="dropdown-content">
+              <a class="dropdown-item" *ngFor="let location of Locations" (click)="currentlySelected(location.name)">
+                <div class="location-name-select">
+                  {{location.name}}            
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="date is-size 6">
+        Day:
+        <input type="date" [min]="minDate()" [max]="maxDate()" >
+      </div>
+    </div>
+</div>

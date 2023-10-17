@@ -1,0 +1,60 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit(form)">
+  <div class="column is-one-third">
+  <div class="field">
+    <label class="label">Name</label>
+    <div class="control">
+      <input class="input" type="text" name="name" placeholder="Name" formControlName = "name">
+      <p class="help is-danger" *ngIf="form.get('name')?.invalid && form.get('name')?.touched">This name is invalid</p>
+    </div>
+  </div>
+
+  <div class="field">
+    <label class="label">Surname</label>
+    <div class="control">
+      <input class="input" type="text" name="surname" placeholder="Surname" formControlName = "surname">
+    </div>
+    <p class="help is-danger" *ngIf="form.get('surname')?.invalid && form.get('surname')?.touched" >This surname is invalid</p>
+  </div>
+  
+  <div class="field">
+    <label class="label">Username</label>
+    <div class="control">
+      <input class="input" type="text" name="username" placeholder="Username" formControlName = "username">
+    </div>
+    <p class="help is-danger" *ngIf="form.get('username')?.invalid && form.get('username')?.touched">Username has to be longer than 4 characters or already exists</p>
+  </div>
+  
+  <div class="field">
+    <label class="label">Email</label>
+    <div class="control">
+      <input class="input" type="email" name="email" placeholder="Email">
+    </div>
+    <p class="help is-danger" *ngIf="form.get('email')?.invalid && form.get('email')?.touched">This email is invalid or already exists</p>
+  </div>
+
+  <div class="field">
+    <label class="label">Password</label>
+    <div class="control">
+      <input class="input" type="password" name="password" placeholder="Password" formControlName = "password">
+    </div>
+    <p class="help is-danger" *ngIf="form.get('password')?.invalid && form.get('password')?.touched">This password should be at least 8 characters long, contain one big letter, a number and a special character</p>
+  </div>
+
+  <div class="field">
+    <label class="label">Age</label>
+    <div class="control">
+      <input class="input" type="text" name="age" placeholder="Age" formControlName = "age">
+    </div>
+    <p class="help is-danger" *ngIf="form.get('age')?.invalid && form.get('age')?.touched">This age is invalid</p>
+  </div>
+  
+  <div class="field is-grouped">
+    <div class="control">
+      <button class="button is-link">Submit</button>
+    </div>
+    <div class="control">
+      <button class="button is-link is-light" [routerLink]="'/home'">Cancel</button>
+    </div>
+  </div>
+</div>
+</form>

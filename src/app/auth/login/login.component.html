@@ -1,0 +1,27 @@
+<div class="column"></div>
+<div class="column is-one-quarter">
+  <form #loginform = "ngForm" (ngSubmit)="onSubmit(loginform)">
+<div class="field">
+    <p class="control">
+      <input class="input" type="Username" name = "username" placeholder="Username" ngModel>
+    </p>
+  </div>
+  <div class="field">
+    <p class="control">
+      <input class="input" type="password" name="password" placeholder="Password" ngModel>
+    </p>
+  </div>
+  <label class="checkbox">
+    <input type="checkbox" (click)="rememberMe()">
+    Remember me
+  </label>
+  <div class="field">
+    <p class="control">
+      <button class="button is-success">
+        Login
+      </button>
+    </p>
+  </div>
+</form>
+</div>
+

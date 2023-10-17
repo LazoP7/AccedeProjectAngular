@@ -1,0 +1,42 @@
+* { padding: 1px; margin: 0; }
+
+.column[name = "mainColumn"]{
+  min-height: 100vh;
+}
+
+.main-divider{
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #000000;
+    margin: 1em 0;
+    padding: 0;
+}
+
+.button-location{
+    width: 100px;
+    word-wrap: break-word;
+}
+.dropdown-menu{
+    left: 50% !important;
+    right: auto !important;
+    text-align: center !important;
+    transform: translate(-50%, 0) !important;
+}
+
+.location-name-select{
+  width:100px;
+  word-wrap: break-word;
+}
+
+* {
+  box-sizing: border-box;
+}
+.google-map{
+  max-width: 600px !important;
+}
+
+.selectedLocation{
+  margin-top: 10px;
+}
+

@@ -1,0 +1,44 @@
+<div class="columns" name="mainColumn">
+    <div class="column is-one-quarter is-mobile has-background-primary-light" >
+        <article class="media">
+            <figure class="media-left">
+            </figure>
+            <div class="media-content">
+              <div class="content">
+                <p>
+                  <strong>Lazar Pejovic</strong> <small>@LazoP</small>
+                  <br>
+                  Zdravo ovo je moj profile description
+                </p>
+              </div>
+            </div>
+          </article>
+    </div>
+    <div class="column is-fullwidth is-mobile" name="mainColumn">
+        <div *ngFor="let match of matches">
+            <nav class="panel">
+              <div class="panel-heading">
+                {{ match.date | date:'MMM  dd, yyyy hh:mm' }} || {{match.locationName.name}}
+              </div>
+              <table class="table is-fullwidth">
+                <thead>
+                  <tr>
+                    <th>Match players</th>
+                  </tr>
+                </thead>
+                <tbody *ngFor="let player of match.players">
+                  <tr>
+                    {{player.name}} "{{player.username}}" {{player.surname}} ({{player.reputation}})
+                  </tr>
+                </tbody>
+              </table>
+              
+              <div class="panel-block">
+                <div class="column height = 10px">
+                </div>
+              </div>
+            </nav>
+            <hr class = "main-divider">
+          </div>
+    </div>
+  </div>

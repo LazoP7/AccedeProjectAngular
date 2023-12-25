@@ -27,9 +27,9 @@
   <div class="field">
     <label class="label">Email</label>
     <div class="control">
-      <input class="input" type="email" name="email" placeholder="Email">
+      <input class="input" type="mail" name="mail" placeholder="mail" formControlName = "mail">
     </div>
-    <p class="help is-danger" *ngIf="form.get('email')?.invalid && form.get('email')?.touched">This email is invalid or already exists</p>
+    <p class="help is-danger" *ngIf="form.get('mail')?.invalid && form.get('mail')?.touched">This email is invalid or already exists</p>
   </div>
 
   <div class="field">

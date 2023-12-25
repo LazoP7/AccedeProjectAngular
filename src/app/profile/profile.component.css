@@ -1,3 +1,33 @@
 .column[name = "mainColumn"]{
     min-height: 100vh;
   }
+
+#editable{
+  border:none;
+  outline:none;
+  background:transparent;
+  width: 100%;
+  height: auto;
+  word-wrap: break-word;
+  word-break: break-all;
+  resize: none;
+}
+
+#addRepImg{
+  border: 0;
+  width: 20px;
+  height: 20px;
+  background-color: white;
+}
+
+#addRepBttn{
+  border: 0;
+  background-color: white;
+  margin-left: auto;
+}
+
+tbody tr {
+  display: flex;
+  align-items: center;
+}
+

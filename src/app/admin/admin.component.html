@@ -1,7 +1,76 @@
+<div *ngIf="hasError" class="notification is-danger" id="notification">
+    <button class="delete" (click)="closeNotify()"></button>
+    {{errorMessage}}
+  </div>
 <div>
-    Create new Location:
-    <div>
-        
+    <label class="label">Create new Location:</label>
+<form [formGroup]="form" (ngSubmit)="onSubmit(form)">
+    <div class="field">
+        <div class="control">
+          <input class="input" type="text" name="locationName" placeholder="Location name" formControlName = "locationName">
+        </div>
+            <p class="help is-danger" *ngIf="form.get('locationName')?.invalid && form.get('locationName')?.touched" >This location name is invalid</p>
     </div>
-    Ovdje bi trebale biti ngForm za ime i adresu lokacije
+    <div class="field">
+        <div class="control">
+          <input class="input" type="text" name="address" placeholder="Address" formControlName = "address">
+        </div>
+            <p class="help is-danger" *ngIf="form.get('address')?.invalid && form.get('address')?.touched" >This address name is invalid</p>
+    </div>
+    <div class="field is-grouped">
+        <div class="control">
+          <button class="button is-link">Create</button>
+        </div>
+        <div class="control">
+          <button class="button is-link is-light" (click) = "clearForm()">Cancel</button>
+        </div>
+    </div>
+</form>
 </div>
+<th></th>
+<label class="label">Check User Roles</label>
+<div class="field has-addons">
+    <div class="control">
+        <input class="input" type="text" placeholder="Enter username" [(ngModel)]="selectedUsernameCheck">
+    </div>
+    <div class="control">
+        <a class="button is-info" (click) = "checkRoles()">
+          Check Roles
+        </a>
+    </div>
+    <div class = "control" *ngFor = "let role of userRoles">
+        <div class="control">
+            <a class="button">
+              {{role}}
+            </a>
+          </div>
+    </div>
+</div>
+<th></th>
+<label class="label">Set User Roles</label>
+<div class="field has-addons">
+    <div class="control">
+      <input class="input" type="text" placeholder="Enter username" [(ngModel)]="selectedUsername">
+    </div>
+    <div class="control">
+        <div class="field">
+            <p class="control has-icons-left">
+              <span class="select" >
+                <select [(ngModel)]="selectedUserRole">
+                  <option selected>Player</option>
+                  <option>Owner</option>
+                  <option>Admin</option>
+                </select>
+              </span>
+              <span class="icon is-small is-left">
+                <i class="fas fa-globe"></i>
+              </span>
+            </p>
+    </div>
+    </div>
+    <div class="control">
+        <a class="button is-info" (click) = "updateRole()">
+          Update Role
+        </a>
+      </div>
+  </div>

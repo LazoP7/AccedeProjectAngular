@@ -5,6 +5,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { ProfileComponent } from './profile/profile.component';
 import { AdminComponent } from './admin/admin.component';
+import { OwnerComponent } from './owner/owner.component';
 
 
 const routes: Routes = [
@@ -14,6 +15,7 @@ const routes: Routes = [
     {path: 'register', component: RegisterComponent},
     {path: 'profile', component: ProfileComponent},
     {path: 'admin', component: AdminComponent},
+    {path: 'owner', component: OwnerComponent},
     {path: '**', component: HomeComponent}
     
 ]

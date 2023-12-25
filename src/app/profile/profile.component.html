@@ -5,40 +5,42 @@
             </figure>
             <div class="media-content">
               <div class="content">
-                <p>
-                  <strong>Lazar Pejovic</strong> <small>@LazoP</small>
-                  <br>
-                  Zdravo ovo je moj profile description
-                </p>
+                  <strong>{{name}} {{surname}}</strong> <small>@{{username}}</small> 
+                  <div>
+                    <textarea name="text" id = "editable" maxlength="400" rows="8" cols="10" wrap="soft" value="description" [(ngModel)]="description" (change) = "onDescChange()"> </textarea>
+                  </div>    
               </div>
             </div>
           </article>
     </div>
     <div class="column is-fullwidth is-mobile" name="mainColumn">
-        <div *ngFor="let match of matches">
-            <nav class="panel">
-              <div class="panel-heading">
-                {{ match.date | date:'MMM  dd, yyyy hh:mm' }} || {{match.locationName.name}}
-              </div>
-              <table class="table is-fullwidth">
-                <thead>
-                  <tr>
-                    <th>Match players</th>
-                  </tr>
-                </thead>
-                <tbody *ngFor="let player of match.players">
-                  <tr>
-                    {{player.name}} "{{player.username}}" {{player.surname}} ({{player.reputation}})
-                  </tr>
-                </tbody>
-              </table>
-              
-              <div class="panel-block">
-                <div class="column height = 10px">
-                </div>
-              </div>
-            </nav>
-            <hr class = "main-divider">
+      <div *ngFor="let match of matches">
+        <nav class="panel">
+          <div class="panel-heading">
+            {{ match.date | date:'MMM  dd, yyyy hh:mm' }} || {{ match.locationName.name }}
           </div>
+          <table class="table is-fullwidth">
+            <thead>
+              <tr>
+                <th>Match players</th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let player of match.players">
+              <tr>
+                {{ player.name }} "{{ player.username }}" {{ player.surname }} 
+              </tr>
+            </tbody>
+          </table>
+    
+          <div class="panel-block">
+            <div class="column height=10px">
+              <button class="button is-link is-danger is-outlined is-fullwidth" (click) = "leaveMatch(match)">
+                Leave match
+              </button>
+            </div>
+          </div>
+        </nav>
+        <hr class="main-divider">
+      </div>
     </div>
-  </div>
+    

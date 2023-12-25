@@ -1,8 +1,9 @@
-import { Component, inject } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Component, OnInit, inject } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { UserDTO } from './models/user.model';
 import { LoginService } from '../login.service';
 import { Router } from '@angular/router';
+import { UserService } from 'src/app/user/user.service';
 
 
 @Component({
@@ -11,39 +12,74 @@ import { Router } from '@angular/router';
   styles: [
   ]
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit{
 
   constructor(
     private loginService: LoginService,
-    private router: Router
+    private router: Router,
+    private formBuilder: FormBuilder,
+    private userService: UserService
   ){}
+
+  loginForm: FormGroup = new FormGroup({});
 
   username = String('');
   password = String('');
   rememberme : boolean = false;
 
-  userCred! : UserDTO;
+  userCred: UserDTO = {
+    username: '',
+    password: '',
+    rememberMe: false
+  };
 
-  onSubmit(form : NgForm){
-    this.username = form.value.username;
-    this.password = form.value.password;
-    if (this.userCred) {
-      this.userCred.username = this.username;
-      this.userCred.password = this.password;
-      this.userCred.rememberMe = this.rememberme;
-    }
+  hasError: boolean = false;
+  errorMessage: string = '';
+
+  ngOnInit() {
+    this.loginForm = this.formBuilder.group({
+      username: ['', Validators.required],
+      password: ['', Validators.required],
+      rememberMe: [false],
+    });
     
-    this.loginService.getToken(this.userCred).subscribe(token => {
-      localStorage.setItem('JwtToken', token.JwtToken);
-      localStorage.setItem('refreshToken', token.RefreshToken);
-      this.loginService.subject.next(true);
-      this.router.navigate(['/home'])
-      });
   }
 
-  rememberMe(){
-    this.rememberme!;
+  closeNotify(): void {
+    this.hasError = false;
+    this.errorMessage = '';
   }
+
+
+  onSubmit(){
+    const userCred = this.loginForm.value;
+    if (userCred) {
+      this.loginService.getToken(userCred).subscribe(
+        async (token) => {
+          localStorage.setItem('JwtToken', token.accessToken);
+          localStorage.setItem('refreshToken', token.refreshToken);
+          localStorage.setItem('Username', JSON.stringify(userCred.username))
+          this.userService.getUser(userCred.username).subscribe(user => {
+            localStorage.setItem('User', JSON.stringify(user));
+          })
+          await new Promise(f => setTimeout(f, 200));
+          this.loginService.isAuth.next(true);
+          this.router.navigate(['/home']);
+        },
+        (error) => {
+          this.hasError = true;
+          this.errorMessage = 'Invalid login credentials'
+          console.error('Error getting token:', error);
+          this.loginService.isAuth.next(false);
+        }
+      );
+    }
+  }
+
+  rememberMe() {
+    this.rememberme = !this.rememberme;
+  }
+  
 
 
 }

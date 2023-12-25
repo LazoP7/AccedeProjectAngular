@@ -7,8 +7,12 @@ import { LoginService } from "../login.service";
 export class alreadyAuthenticatedGuard implements CanActivate{
 
     constructor(private loginService: LoginService){}
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-       return !this.loginService.subject.getValue();
+    canActivate(): boolean { 
+        if(localStorage.getItem('JwtToken') != null){
+            return true;
+        } else {
+            return this.loginService.isAuth.getValue();
+        }
     }
 
 }

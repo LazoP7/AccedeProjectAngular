@@ -12,6 +12,10 @@ import { RegisterComponent } from './auth/register/register.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProfileComponent } from './profile/profile.component';
 import { AdminComponent } from './admin/admin.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CommonModule } from '@angular/common';
+import { OwnerComponent } from './owner/owner.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +25,8 @@ import { AdminComponent } from './admin/admin.component';
     LoginComponent,
     RegisterComponent,
     ProfileComponent,
-    AdminComponent
+    AdminComponent,
+    OwnerComponent
   ],
   imports: [
     BrowserModule,
@@ -29,7 +34,9 @@ import { AdminComponent } from './admin/admin.component';
     AppRouterModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatPaginatorModule,
+    BrowserAnimationsModule,
   ],
   providers: [
     {

@@ -1,3 +1,8 @@
+<div *ngIf="hasError" class="notification is-danger" id="notification">
+  <button class="delete" (click)="closeNotify()"></button>
+  {{errorMessage}}
+</div>
+
 <div class="columns is-mobile height = 100%" name = "mainColumn" >
     <div class="column is-one-quarter has-background-light height = 100% is-mobile ">
       <div class="my-google-map">
@@ -6,15 +11,15 @@
         </google-map>
       </div>
     </div>
-    <div class="column is-multilane has-background-primary-light height 100%" name = "mainColumn">
+  <div class="column is-multiline has-background-primary-light height-100" name="mainColumn2">
       <div class="selectedLocation">
-        {{selectedLocationName}}
+        {{ selectedLocationNameUpdated }}
       </div>
-      <hr class = "main-divider">
-      <div *ngFor="let match of matches">
-        <nav class="panel">
+      <hr class="main-divider">
+      <div *ngFor="let match of displayedMatches">
+        <nav class="panel" *ngIf="match.open == true">
           <div class="panel-heading has-background-light">
-            {{ match.date | date:'MMM  dd, yyyy HH:mm' }} || {{match.locationName.name}}
+            {{ match.date | date:'MMM dd, yyyy HH:mm' }} || {{ match.locationName.name }} || {{match.players.length}}/{{ match.num_of_players}}
           </div>
           <table class="table is-fullwidth">
             <thead>
@@ -22,24 +27,55 @@
                 <th>Match players</th>
               </tr>
             </thead>
-            <tbody *ngFor="let player of match.players">
-              <tr>
-                {{player.name}} "{{player.username}}" {{player.surname}} ({{player.reputation}})
+            <tbody *ngFor="let player of match.players; let i = index">
+              <tr class="table-row">
+                {{ player.name }} "{{ player.username }}" {{ player.surname }}
+                <div *ngIf="checkAuth()">
+                  <div id="playerNumDD" class="dropdown is-hoverable is-up" *ngIf="user && user?.username === match.players[0]?.username && i === 0">
+                    <div id="playerNumDD" class="dropdown-trigger">
+                      <button id="playerNumDD" class="button" aria-haspopup="true" aria-controls="dropdown-menu2">
+                        <img id="playerNumIcon" src="../../assets/playernumbicon.png">
+                      </button>
+                    </div>
+                    <div class="dropdown-menu" id="dropdown-menu2" role="menu">
+                      <div class="dropdown-content">
+                        <button id="playerNumSel" (click)="setMatchSize(2, match)">2</button>
+                        <button id="playerNumSel" (click)="setMatchSize(4, match)">4</button>
+                        <button id="playerNumSel" (click)="setMatchSize(6, match)">6</button>
+                        <button id="playerNumSel" (click)="setMatchSize(8, match)">8</button>
+                        <button id="playerNumSel" (click)="setMatchSize(10, match)">10</button>
+                      </div>
+                    </div>
+                  </div>    
+                  <button id="kickPlayerButton" *ngIf="user && user?.username === match.players[0]?.username && i > 0" (click)="kickPlayer(player, match)">
+                    <img id="redX" src="../../assets/redX.webp">
+                  </button>
+                </div>                
               </tr>
+              <hr id="player-divider">
             </tbody>
           </table>
-          
+
           <div class="panel-block">
-            <div class="column height = 10px">
-              <button class="button is-link is-outlined is-fullwidth" (click)="joinMatch(match)">
-                Join match
+            <div class="column height-10">
+              <button class="button is-link is-outlined is-fullwidth" 
+                      [ngClass]="{'is-danger': isUserInMatch(match)}"
+                      (click)="toggleJoinLeave(match)">
+                {{ isUserInMatch(match) ? 'Leave match' : 'Join match' }}
               </button>
             </div>
           </div>
         </nav>
-        <hr class = "main-divider">
+        <hr class="main-divider">
       </div>
-    </div>
+    
+      <mat-paginator [length]="totalItems"
+                     [pageSize]="itemsPerPage"
+                     [pageSizeOptions]="itemsPerPageOptions"
+                     [pageIndex]="currentPage"
+                     (page)="pageUpdate($event)">
+      </mat-paginator>
+  </div>
     <div class="column is-one-quarter has-background-light 100%" name = "mainColumn">
       <div class="find-a-match is-size-4 has-text-centered">
         Find a match
@@ -57,7 +93,7 @@
           </div>
           <div class="dropdown-menu" id="dropdown-menu" role="menu">
             <div class="dropdown-content">
-              <a class="dropdown-item" *ngFor="let location of Locations" (click)="currentlySelected(location.name)">
+              <a class="dropdown-item" *ngFor="let location of Locations" (click)="setMatchLocation(location.name)">
                 <div class="location-name-select">
                   {{location.name}}            
                 </div>
@@ -68,7 +104,10 @@
       </div>
       <div class="date is-size 6">
         Day:
-        <input type="date" [min]="minDate()" [max]="maxDate()" >
+        <input type="date" id="dateTable"  [min]="minDate()" [max]="maxDate()" >
       </div>
+      <button type="submit" class="button is-success" (click)="SearchBy()">
+        Search
+      </button>
     </div>
 </div>

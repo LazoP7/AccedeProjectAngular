@@ -1,0 +1,39 @@
+#button-close {
+    float:right;
+    padding-right: 50%;
+    padding: 0px 16px 0px 16px !important;
+    border: none;
+    vertical-align: middle;
+    height: 48px;
+    line-height: 48px;
+}
+
+#button-open {
+    float:right;
+    padding-right: 50%;
+    padding: 0px 16px 0px 16px !important;
+    border: none;
+    vertical-align: middle;
+    height: 48px;
+    line-height: 48px;
+}
+
+#button-kick {
+    float:right;
+    padding-right: 50%;
+    padding: 0px 16px 0px 16px !important;
+    border: none;
+    vertical-align: middle;
+    height: 48px;
+    line-height: 48px;
+}
+
+#matchInfoPanel {
+    float:left;
+    padding-left: 50%;
+    padding: 0px 0px 0px 16px !important;
+    border: none;
+    vertical-align: middle;
+    height: 48px;
+    line-height: 48px;
+}

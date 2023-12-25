@@ -1,27 +1,32 @@
+<div *ngIf="hasError" class="notification is-danger" id="notification">
+  <button class="delete" (click)="closeNotify()"></button>
+  {{errorMessage}}
+</div>
 <div class="column"></div>
 <div class="column is-one-quarter">
-  <form #loginform = "ngForm" (ngSubmit)="onSubmit(loginform)">
-<div class="field">
-    <p class="control">
-      <input class="input" type="Username" name = "username" placeholder="Username" ngModel>
-    </p>
-  </div>
-  <div class="field">
-    <p class="control">
-      <input class="input" type="password" name="password" placeholder="Password" ngModel>
-    </p>
-  </div>
-  <label class="checkbox">
-    <input type="checkbox" (click)="rememberMe()">
-    Remember me
-  </label>
-  <div class="field">
-    <p class="control">
-      <button class="button is-success">
-        Login
-      </button>
-    </p>
-  </div>
-</form>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div class="field">
+      <p class="control">
+        <input class="input" type="text" placeholder="Username" formControlName="username">
+      </p>
+    </div>
+    <div class="field">
+      <p class="control">
+        <input class="input" type="password" placeholder="Password" formControlName="password">
+      </p>
+    </div>
+    <label class="checkbox">
+      <input type="checkbox" formControlName="rememberMe">
+      Remember me
+    </label>
+    <div class="field">
+      <p class="control">
+        <button type="submit" class="button is-success">
+          Login
+        </button>
+      </p>
+    </div>
+  </form>
 </div>
+
 

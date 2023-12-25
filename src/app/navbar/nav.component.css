@@ -1,0 +1,16 @@
+
+  
+  [name="navbar-end"], [name="logoutButton"] {
+    display: flex;
+    align-items: center;
+  }
+  
+  [name="navbar-end"] .buttons,
+  [name="logoutButton"] {
+    margin-right: 10px;
+  }
+
+  #usernameShow{
+    margin-right: 30px;
+  }
+  

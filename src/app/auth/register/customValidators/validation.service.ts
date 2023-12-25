@@ -10,7 +10,7 @@ export class ValidationService {
 
     url = environment.userUrl;
 
-    getUsername(username : string): Observable<string> {
+    getUser(username : string): Observable<string> {
         return this.httpClient.get<any>(`${this.url}/search-by-username${username}`, { headers: this.generateHeader() });
     }
 

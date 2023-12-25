@@ -4,6 +4,7 @@
   min-height: 100vh;
 }
 
+
 .main-divider{
     display: block;
     height: 1px;
@@ -38,5 +39,54 @@
 
 .selectedLocation{
   margin-top: 10px;
+}
+
+
+.table-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+.table-row button {
+  margin-left: 10px; 
+}
+
+
+#player-divider {
+  width: 100%; 
+}
+
+#kickPlayerButton{
+  border: 0px;
+  background-color: white;
+}
+
+#redX {
+  max-height: 20px; 
+  max-width: 20px;  
+}
+
+#playerNumDD{
+  border: 0;
+  background-color: white;
+  height: 100%;
+}
+
+#playerNumIcon{
+  max-height: 20px; 
+  max-width: 20px;
+}
+
+#playerNumSel{
+  background-color: hsl(171, 100%, 96%);
+  width: 20px;
+  border-width: 1px;
+}
+
+.is-danger {
+  color: white;
+  background-color: red;
 }
 

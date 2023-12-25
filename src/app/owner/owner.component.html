@@ -1,0 +1,69 @@
+
+    <div class="column is-multiline has-background-primary-light height-100" name="mainColumn2">
+        <div class="selectedLocation">
+          {{ locationName }}
+        </div>
+        <hr class="main-divider">
+        <div *ngFor="let match of matches">
+          <nav class="panel"  *ngIf="match.open == true">
+                <div class="panel-heading has-background-light" id="matchInfoPanel" >
+                    {{ match.date | date:'MMM dd, yyyy HH:mm' }} || {{ match.locationName.name }}
+                </div>
+                <div>
+                    <button type="closeMatch" class="button is-danger" id="button-close" (click)="closeMatch(match)">
+                        Close Match
+                    </button>
+                </div>
+            <table class="table is-fullwidth is-bordered">
+              <thead>
+                <tr>
+                  <th>Match players</th>
+                  <th>Kick</th>
+                </tr>
+              </thead>
+              <tbody *ngFor="let player of match.players">
+                <tr>
+                    <td>
+                        {{ player.name }} "{{ player.username }}" {{ player.surname }} ({{ player.reputation }})
+                    </td>
+                    <td>
+                        <button type="kickPlayer" class="button is-danger" id="button-kick" (click)="kickPlayer(match, player)">
+                            X
+                        </button>
+                    </td>
+                </tr>
+              </tbody>
+            </table>
+          </nav>
+          <nav class="panel"  *ngIf="match.open == false">
+            <div class="panel-heading has-background-light" id="matchInfoPanel" >
+                {{ match.date | date:'MMM dd, yyyy HH:mm' }} || {{ match.locationName.name }}
+            </div>
+            <div>
+                <button type="openMatch" class="button is-success" id="button-open" (click)="openMatch(match)">
+                    Open Match
+                </button>
+            </div>
+        <table class="table is-fullwidth is-bordered is-striped">
+          <thead>
+            <tr>
+              <th>Match players</th>
+              <th>Kick</th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let player of match.players">
+            <tr>
+                <td>
+                    {{ player.name }} "{{ player.username }}" {{ player.surname }} ({{ player.reputation }})
+                </td>
+                <td>
+                    <button type="kickPlayer" class="button is-danger" id="button-kick" (click)="kickPlayer(match, player)">
+                        X
+                    </button>
+                </td>
+            </tr>
+          </tbody>
+        </table>
+      </nav>
+        </div>
+    </div>

@@ -28,6 +28,14 @@ export class HomeComponent implements OnInit{
     errorMessage: string = '';
     hasError: boolean = false;
     userId: number = 0;
+
+    Locations: CustomLocation[] = []
+    LocationAny : CustomLocation = {
+        name: 'Any',
+        address : ''
+    }
+    straddress : string[] = []
+    locationForType: CustomLocation[] = [this.LocationAny];
     
 
     //Pagination options
@@ -35,8 +43,11 @@ export class HomeComponent implements OnInit{
     itemsPerPageOptions: number[] = [5, 10, 25, 100]; // Set the available items per page options
     itemsPerPage: number = 10; // Set the default number of items per page
     totalItems: number = 0; // Track the total number of items
+
     displayedMatches: matchModel[] = [];
     user!: UserInfo;
+    matchType: string = '';
+    matchSizes : number[] = [];
 
     @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -49,12 +60,36 @@ export class HomeComponent implements OnInit{
     ngOnInit(): void {
         this.checkAuth();
         this.matchService.getAllMatches().subscribe(data => {this.matches = data,
-            this.updateDisplayedMatches();
+            this.updateDisplayedMatches(),
+            this.loadType(data);
         });
         this.locationService.getAllLocations().subscribe(data => {this.Locations = data,
-        this.Locations.unshift(this.LocationAny),
-        this.addMarker();});
-        
+            this.Locations.unshift(this.LocationAny),
+            this.addMarker()
+        });
+        this.startingMatchType();
+    }
+
+    loadType(data: any){
+        const type = data[0].type;
+        if(type == 0){
+            this.matchType = 'Basketball'
+            this.matchSizes = [2,4,6,8,10];
+        }
+        if(type == 1){
+            this.matchType = 'Football'
+            this.matchSizes = [6,8,10,12,14,16,18,20];
+        } 
+        if(type == 2) {
+            this.matchType = 'Tennis'
+            this.matchSizes = [2,4];
+        }
+    }
+
+    startingMatchType(){
+        if(localStorage.getItem('matchType') == null){
+            this.matchService.changeMatchType(0);
+        }
     }
 
       pageUpdate(event: any): void{
@@ -90,20 +125,29 @@ export class HomeComponent implements OnInit{
     //mathods for google maps
         //method for adding markers to the google map
         addMarker() {
+            const type = parseInt(localStorage.getItem('matchType')!);
+            const now = new Date();
             for(let location of this.Locations){
-                    // console.log(location.name)
-                    this.straddress = location.address.split(",");
-                    localStorage.setItem("straddress", JSON.stringify(this.straddress));
-                    // console.log(this.straddress[0]);
-                    // console.log(this.straddress[1]);
-                    this.markers.push({position:{
-                        lat: Number(this.straddress[0]),
-                        lng: Number(this.straddress[1])                
-                    },
-                    title: location.name,
-                    options: { animation: google.maps.Animation.DROP }
-                    })
-                
+                    for(let match of this.matches){
+                        if(match.locationName.name == location.name && match.type == type){
+                            this.straddress = location.address.split(",");
+                            const positionToCheck = {
+                                lat: Number(this.straddress[0]),
+                                lng: Number(this.straddress[1])
+                            };
+                            if(!this.markers.some(marker => marker.position.lat === positionToCheck.lat && marker.position.lng === positionToCheck.lng))
+                                
+                                this.locationForType?.push(location);
+
+                                this.markers.push({position:{
+                                    lat: Number(this.straddress[0]),
+                                    lng: Number(this.straddress[1])                
+                                },
+                                title: location.name,
+                                options: { animation: google.maps.Animation.DROP }
+                                })
+                        }    
+                    }
             }
         }
         //marker options
@@ -116,15 +160,6 @@ export class HomeComponent implements OnInit{
             mapTypeControl: false,
             streetViewControl: false,
         }
-
-    //current set of locations
-
-    Locations: CustomLocation[] = []
-    LocationAny : CustomLocation = {
-        name: 'Any',
-        address : ''
-    }
-    straddress : string[] = []
 
     setMatchLocation(matchLocation: string): void{
         this.selectedLocationName = matchLocation;
@@ -199,7 +234,6 @@ export class HomeComponent implements OnInit{
           const userString = localStorage.getItem('User');
           if (userString != '' && userString) {
             this.user = JSON.parse(userString);
-            console.log(isAuthenticated)
             return true;
           } else {
             // console.error('User not found in localStorage');
@@ -239,7 +273,7 @@ export class HomeComponent implements OnInit{
     minDate(){
         var today = new Date();
         var dd = today.getDate().toString();
-        var mm = (today.getMonth()).toString();
+        var mm = (today.getMonth()+1).toString();
         var year = today.getFullYear().toString();
 
         if(today.getDate() < 10){
@@ -248,10 +282,10 @@ export class HomeComponent implements OnInit{
         if(today.getMonth() < 10){
             mm = '0' + mm; //adding the 0 in front of single digit days for max and min date ask for mm for months
         }
-        if(today.getMonth() == 11 && today.getDate() > 23){
+        if(today.getMonth()-1 == 11 && today.getDate() > 23){
             mm = '00';//if I would pass into next year when adding 7 days for max selectable date month would be turned into 00(january)
         }
-        return year + '-' + mm + '-' + dd;
+        return year + '-' + mm  + '-' + dd;
 
     }
 
@@ -265,9 +299,16 @@ export class HomeComponent implements OnInit{
         var day = arrStrDate[2];//setting day
         //searching by Location when date is null and location is different than any
         if(day == null && this.selectedLocationName != 'Any'){
-            this.matchService.getMatchesByLocation(this.selectedLocationName).subscribe(data => {this.matches = data,
-                this.updateDisplayedMatches();
-            });
+            this.matchService.getMatchesByLocation(this.selectedLocationName).subscribe(
+                (response) => {
+                    this.matches = response,
+                    this.updateDisplayedMatches();
+                },
+                (error) => {
+                  this.errorMessage = "This location doesn't have matches of this sport";
+                  this.hasError = true;
+                }
+              );
         }
         //searching for all matches
         if(day == null && this.selectedLocationName == 'Any'){
@@ -277,15 +318,31 @@ export class HomeComponent implements OnInit{
         } 
         //search by date specified when location is Any location
         if(day !=null && this.selectedLocationName == 'Any'){
-            this.matchService.getMatchesByDate(extractedDate).subscribe(data => {this.matches = data,
-                this.updateDisplayedMatches();
-            });
+            this.matchService.getMatchesByDate(extractedDate).subscribe(
+                (response) => {
+                    this.matches = response,
+                    this.updateDisplayedMatches();
+                },
+                (error) => {
+                  this.errorMessage = "There are no matches for specified Date";
+                  this.hasError = true;
+                }
+              );
+          
         }
         //searching by date and location when they have been both specified
         if(day != null && this.selectedLocationName != 'Any'){
-            this.matchService.getMatchesByLocationAndDate(this.selectedLocationName, extractedDate).subscribe(data => {this.matches = data,
-                this.updateDisplayedMatches();
-            });
+            this.matchService.getMatchesByLocationAndDate(this.selectedLocationName, extractedDate).subscribe(
+                (response) => {
+                    this.matches = response,
+                    this.updateDisplayedMatches();
+                },
+                (error) => {
+                  this.errorMessage = "This location doesn't have matches on selected date";
+                  this.hasError = true;
+                }
+              );
+            
         this.selectedLocationNameUpdated = this.selectedLocationName;
         this.currentPage = 0;
     }

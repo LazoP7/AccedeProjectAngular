@@ -13,4 +13,13 @@
   #usernameShow{
     margin-right: 30px;
   }
+
+  .dropdown-content {
+    width: 70px;
+  }
+  
+  .dropdown-item img {
+    max-width: 40px;
+    max-height: 40px;
+  }
   

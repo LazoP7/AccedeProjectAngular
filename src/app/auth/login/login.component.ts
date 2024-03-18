@@ -45,13 +45,15 @@ export class LoginComponent implements OnInit{
     
   }
 
-  closeNotify(): void {
+  closeNotify(): void //close notification
+  {
     this.hasError = false;
     this.errorMessage = '';
   }
 
 
-  onSubmit(){
+  onSubmit() //on form submit event username and password are checked for validity and JWT token is saved
+  {
     const userCred = this.loginForm.value;
     if (userCred) {
       this.loginService.getToken(userCred).subscribe(
@@ -76,7 +78,8 @@ export class LoginComponent implements OnInit{
     }
   }
 
-  rememberMe() {
+  rememberMe() 
+  {
     this.rememberme = !this.rememberme;
   }
   

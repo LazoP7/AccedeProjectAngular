@@ -2,6 +2,8 @@ import { Component , OnInit} from '@angular/core';
 import { LoginService } from '../auth/login.service';
 import { UserInfo } from '../auth/login/models/UserInfo.model';
 import { UserService } from '../user/user.service';
+import { MatchService } from '../Match/Models/match.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-navbar-nav',
@@ -26,7 +28,9 @@ export class NavComponent implements OnInit {
   userRoles: Array<string> = [];
 
   constructor(private loginService: LoginService,
-    private userService: UserService 
+    private userService: UserService ,
+    private matchService: MatchService,
+    private router: Router,
     ){};
 
   ngOnInit(): void {
@@ -34,7 +38,7 @@ export class NavComponent implements OnInit {
       this.isUserAuthenticated = data,
       this.checkLogInStatus();
     })
-    
+    this.selectedImg = localStorage.getItem('navImg');
   }
 
   navbarItems: any[] = [ 
@@ -53,7 +57,8 @@ export class NavComponent implements OnInit {
     title: 'Admin', url: '/admin'
   }
 
-  checkLogInStatus(): void {
+  checkLogInStatus(): void //check if user is authenticated and user roles
+  {
     const struser = localStorage.getItem('User');
   
     if (struser) {
@@ -86,38 +91,52 @@ export class NavComponent implements OnInit {
   
 
 
-setUserAuthenticated(set: boolean){
+setUserAuthenticated(set: boolean) // change user authentication
+{
   this.loginService.isAuth.subscribe(data => this.isUserAuthenticated = data);
 }
 
 isActive: boolean = false;
 
 
-onClickBurger(): void {
+onClickBurger(): void //on mouse click on burger
+{
   this.isActive = !this.isActive;
   console.log(this.isActive)
 }
 
-
 selectedImg: any = "../../assets/basketball.png";
 
-selectedBasket():void {
-  this.selectedImg = "../../assets/basketball.png" ;
+
+selectedBasket():void //on selected icon basketball
+{
+  this.matchService.changeMatchType(0);
+  window.location.reload();
+  localStorage.setItem("navImg", "../../assets/basketball.png")
 }
-selectedFootball():void {
-  this.selectedImg = "../../assets/football.png" ;
+selectedFootball():void //on selected icon football
+{
+  this.matchService.changeMatchType(1);
+  window.location.reload();
+  localStorage.setItem("navImg", "../../assets/football.png")
+  
 }
-selectedTennis():void {
-  this.selectedImg = "../../assets/tennis.png" ;
+selectedTennis():void //on selected icon tennis
+{
+  this.matchService.changeMatchType(2);
+  window.location.reload();
+  localStorage.setItem("navImg", "../../assets/tennis.png")
 }
 
-LogOut(): void {
+LogOut(): void //user logout, clear saved user data
+{
   localStorage.clear();
+  localStorage.setItem('navImg', this.selectedImg);
   localStorage.setItem('JwtToken', '');
   localStorage.setItem('refreshToken', '');
   this.setUserAuthenticated(false);
-  window.location.reload();
-  this.checkLogInStatus();
+  setTimeout(() => {this.checkLogInStatus();
+    this.router.navigate(['/home']);},100)
 }
 
 

@@ -1,32 +1,68 @@
-<div *ngIf="hasError" class="notification is-danger" id="notification">
+<div *ngIf="hasError" class="notification is-danger" id="notification" [ngClass]="{'is-danger': isError, 'is-success': isSuccess}">
     <button class="delete" (click)="closeNotify()"></button>
     {{errorMessage}}
   </div>
 <div>
     <label class="label">Create new Location:</label>
-<form [formGroup]="form" (ngSubmit)="onSubmit(form)">
-    <div class="field">
-        <div class="control">
-          <input class="input" type="text" name="locationName" placeholder="Location name" formControlName = "locationName">
-        </div>
-            <p class="help is-danger" *ngIf="form.get('locationName')?.invalid && form.get('locationName')?.touched" >This location name is invalid</p>
-    </div>
-    <div class="field">
-        <div class="control">
-          <input class="input" type="text" name="address" placeholder="Address" formControlName = "address">
-        </div>
-            <p class="help is-danger" *ngIf="form.get('address')?.invalid && form.get('address')?.touched" >This address name is invalid</p>
-    </div>
-    <div class="field is-grouped">
-        <div class="control">
-          <button class="button is-link">Create</button>
-        </div>
-        <div class="control">
-          <button class="button is-link is-light" (click) = "clearForm()">Cancel</button>
-        </div>
-    </div>
-</form>
+    <form [formGroup]="form" (ngSubmit)="onSubmit(form)">
+      <div class="field has-addons">
+          <div class="control">
+            <input class="input" type="text" name="locationName" placeholder="Location name" formControlName = "locationName">
+          </div>
+          <div class="control has-icons-left">
+            <span class="select">
+              <select (change)="getType($event)">
+                <option selected>Basketball</option>
+                <option>Football</option>
+                <option>Tennis</option>
+              </select>
+            </span>
+            <span class="icon is-small is-left">
+              <i class="fas fa-globe"></i>
+            </span>
+          </div>
+          <p class="help is-danger" *ngIf="form.get('locationName')?.invalid && form.get('locationName')?.touched" >This location name is invalid</p>
+      </div>
+      <div class="field has-addons">
+          <div class="control">
+            <input class="input" type="text" name="address" placeholder="Address" formControlName = "address">
+          </div>
+          <div class="field is-grouped">
+          <div class="control">
+            <button class="button is-link">Create</button>
+          </div>
+          <div class="control">
+            <button class="button is-link is-light" (click) = "clearForm()">Cancel</button>
+          </div>
+      </div>
+              <p class="help is-danger" *ngIf="form.get('address')?.invalid && form.get('address')?.touched" >This address name is invalid</p>
+      </div>
+  </form>
 </div>
+<th></th>
+<label class="label">Create matches for Location:</label>
+  <div class="field has-addons">
+    <div class="control">
+      <input class="input" type="text" placeholder="Enter Location Name" [(ngModel)]="selectedLocation">
+    </div>
+    <p class="control has-icons-left">
+      <span class="select">
+        <select (change)="getType($event)">
+          <option selected>Basketball</option>
+          <option>Football</option>
+          <option>Tennis</option>
+        </select>
+      </span>
+      <span class="icon is-small is-left">
+        <i class="fas fa-globe"></i>
+      </span>
+    </p>
+    <div class="control">
+      <a class="button is-info" (click) = "crateMatches()">
+        Create Matches
+      </a>
+    </div>
+  </div>
 <th></th>
 <label class="label">Check User Roles</label>
 <div class="field has-addons">

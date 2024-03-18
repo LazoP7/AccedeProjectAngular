@@ -19,18 +19,21 @@ export class LoginService {
     userurl = environment.userUrl;
 
 
-    getToken(user : UserDTO): Observable<JwtDTO> {
+    getToken(user : UserDTO): Observable<JwtDTO> //http request for user sign in, returns a JWT token
+    {
        return this.httpClient.post<any>(`${this.url}/signin`, user, {headers: this.generateHeader()})
     }
 
-    generateHeader(): HttpHeaders {
+    generateHeader(): HttpHeaders //header generator for http requests 
+    {
         let headers = new HttpHeaders();
         headers = headers.set('Accept', 'application/json');
         headers = headers.set('Content-Type', 'application/json');
         return headers;
     }
 
-    register(payload : any) : Observable<any> {
+    register(payload : any) : Observable<any> //http request for generating new users
+    {
         return this.httpClient.post<any>(`${this.userurl}/createUser`, payload, {headers:  this.generateHeader()})
     }
 

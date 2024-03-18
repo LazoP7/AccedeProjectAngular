@@ -8,5 +8,6 @@ export interface matchModel {
     locationName : CustomLocation,
     players: Array<Player>,
     open: boolean;
+    type: number;
 
 }

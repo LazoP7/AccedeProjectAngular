@@ -16,6 +16,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { OwnerComponent } from './owner/owner.component';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { OwnerComponent } from './owner/owner.component';
     RegisterComponent,
     ProfileComponent,
     AdminComponent,
-    OwnerComponent
+    OwnerComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,

@@ -11,7 +11,8 @@ export class UserService{
 
     private url = environment.userUrl;
 
-    getUser(username:string): Observable<UserInfo>{
+    getUser(username:string): Observable<UserInfo> //http request to get user based on username
+    {
         const options = {
             headers: this.generateHeader(),
             params: {
@@ -21,14 +22,16 @@ export class UserService{
         return this.httpClient.get<UserInfo>(`${this.url}/search-by-username`, options);
     }
 
-    generateHeader(): HttpHeaders {
+    generateHeader(): HttpHeaders //generate header for http requests
+    {
         let headers = new HttpHeaders();
         headers = headers.set('Accept', 'application/json');
         headers = headers.set('Content-Type', 'application/json');
         return headers;
     }
 
-    updateProfDesc(desc : string, userId: number): void{
+    updateProfDesc(desc : string, userId: number): void //http request to update user profile description
+    {
         const params = new HttpParams()
         .set('userId', userId)
         .set('profDescr', desc)
@@ -46,25 +49,17 @@ export class UserService{
         );
     }
 
-    updateUserRoles(userId: number, roles: string){
+    updateUserRoles(userId: number, roles: string): Observable<any> //http request to update user roles
+    {
         const params = new HttpParams()
         .set('userId', userId)
         .set('userRoles', roles)
         console.log(roles);
-        this.httpClient.put(`${this.url}/roles`, null, { headers: this.generateHeader(), params })
-        .subscribe(
-            (response) => {
-                console.log('Success:', response);
-                // Handle success response if needed
-            },
-            (error) => {
-                console.error('Error:', error);
-                // Handle error response if needed
-            }
-        );
+        return this.httpClient.put(`${this.url}/roles`, null, { headers: this.generateHeader(), params })
     }
 
-    checkRoles(username: string): Observable<any>{
+    checkRoles(username: string): Observable<any> //http request to check user roles
+    {
         const options = {
             headers : this.generateHeader(),
             params: { username: username}
@@ -73,7 +68,8 @@ export class UserService{
         return this.httpClient.get(`${this.url}/checkRoles`, options)
     }
 
-    addReputation(username: string):any {
+    addReputation(username: string):any //http requet to add reputation to user
+    {
         const params = new HttpParams()
         .set('username', username)
         this.httpClient.put(`${this.url}/addRep`, null, { headers: this.generateHeader(), params })

@@ -7,7 +7,8 @@ import { LoginService } from "../login.service";
 export class alreadyAuthenticatedGuard implements CanActivate{
 
     constructor(private loginService: LoginService){}
-    canActivate(): boolean { 
+    canActivate(): boolean //check if the user is already authenticated
+    { 
         if(localStorage.getItem('JwtToken') != null){
             return true;
         } else {

@@ -10,26 +10,31 @@ export class LocationService{
     url = environment.locationUrl;
     matchUrl = environment.matchUrl;
 
-    generateHeader(): HttpHeaders {
+    generateHeader(): HttpHeaders //generate header for http requests
+    {
         let headers = new HttpHeaders();
         headers = headers.set('Accept', 'application/json');
         headers = headers.set('Content-Type', 'application/json');
         return headers;
     }
 
-    createLocation(location: any): Observable<any>{
+    createLocation(location: any): Observable<any> //http request for location creation
+    {
         console.log('Location Payload:', location);
         return this.httpClient.post<any>(`${this.url}/newLocation`, location, {headers: this.generateHeader()});
     }
 
-    populateLocation(location: string){
+    populateLocation(location: string, type: number): Observable<any> //http reuqest to create matches to fill new location
+    {
         const params = new HttpParams()
         .set('locationName', location)
+        .set('type', type)
         console.log(location)
         return this.httpClient.put<any>(`${this.matchUrl}/populate`, null, {headers: this.generateHeader(), params});
     }
 
-    getAllLocations(): Observable<any[]> {
+    getAllLocations(): Observable<any[]> //http request to get all locations
+    {
         return this.httpClient.get<any[]>(`${this.url}/getAllLocations`, {headers: this.generateHeader()});
     }
 }

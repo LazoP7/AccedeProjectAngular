@@ -13,6 +13,8 @@ import { UserService } from 'src/app/user/user.service';
 })
 export class RegisterComponent implements OnInit{
 
+  errorMessage: string = '';
+    hasError: boolean = false;
 
   loginService = inject(LoginService);
 
@@ -24,17 +26,35 @@ export class RegisterComponent implements OnInit{
 
   onSubmit(form : FormGroup){
     const payload = this.form.value;
-    this.loginService.register(payload).subscribe(() => {
-      console.log('User saved');
+    this.loginService.register(payload).subscribe(
+      async (response) => {
+        console.log('User saved');
       this.form.reset();
       localStorage.setItem('Username', JSON.stringify(payload.username))
-      this.userService.getUser(payload.username).subscribe(user => {
-        localStorage.setItem('User', JSON.stringify(user));
-      })
-      this.loginService.isAuth.next(true);
-      this.router.navigate(['/home']);
-    });
+      this.userService.getUser(payload.username).subscribe(
+        (response) => {
+          localStorage.setItem('User', JSON.stringify(response));
+        },
+        (error) => {
+          this.errorMessage = "Couldn't create User";
+          this.hasError = true;
+        }
+      );
+      await new Promise(f => setTimeout(f, 200));
+          this.loginService.isAuth.next(true);
+          this.router.navigate(['/home']);
+      },
+      (error) => {
+        this.errorMessage = "This Username or mail is already in use. Please select a different username or mail";
+        this.hasError = true;
+      }
+    );
   }
+
+  closeNotify(): void {
+    this.hasError = false;
+    this.errorMessage = '';
+}
  
   ngOnInit(): void {
     this.form = this.formBuilder.group({

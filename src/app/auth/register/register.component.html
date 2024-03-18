@@ -1,3 +1,8 @@
+<div *ngIf="hasError" class="notification is-danger" id="notification">
+  <button class="delete" (click)="closeNotify()"></button>
+  {{errorMessage}}
+</div>
+
 <form [formGroup]="form" (ngSubmit)="onSubmit(form)">
   <div class="column is-one-third">
   <div class="field">

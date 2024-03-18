@@ -19,7 +19,7 @@
       <div *ngFor="let match of displayedMatches">
         <nav class="panel" *ngIf="match.open == true">
           <div class="panel-heading has-background-light">
-            {{ match.date | date:'MMM dd, yyyy HH:mm' }} || {{ match.locationName.name }} || {{match.players.length}}/{{ match.num_of_players}}
+            {{ match.date | date:'MMM dd, yyyy HH:mm' }} || {{ match.locationName.name }} || {{match.players.length}}/{{ match.num_of_players}} || {{matchType}}
           </div>
           <table class="table is-fullwidth">
             <thead>
@@ -38,12 +38,8 @@
                       </button>
                     </div>
                     <div class="dropdown-menu" id="dropdown-menu2" role="menu">
-                      <div class="dropdown-content">
-                        <button id="playerNumSel" (click)="setMatchSize(2, match)">2</button>
-                        <button id="playerNumSel" (click)="setMatchSize(4, match)">4</button>
-                        <button id="playerNumSel" (click)="setMatchSize(6, match)">6</button>
-                        <button id="playerNumSel" (click)="setMatchSize(8, match)">8</button>
-                        <button id="playerNumSel" (click)="setMatchSize(10, match)">10</button>
+                      <div class="dropdown-content" >
+                        <button id="playerNumSel" *ngFor="let size of matchSizes" (click)="setMatchSize(size, match)">{{size}}</button>
                       </div>
                     </div>
                   </div>    
@@ -82,7 +78,7 @@
       </div>
       <div class="location">
         Location:
-        <div class="dropdown is-hoverable has-text-centered">
+        <div class="dropdown is-hoverable">
           <div class="dropdown-trigger">
             <button class="button-location" aria-haspopup="true" aria-controls="dropdown-menu">
               <span class="location-show-name">{{selectedLocationName}}</span>
@@ -93,7 +89,7 @@
           </div>
           <div class="dropdown-menu" id="dropdown-menu" role="menu">
             <div class="dropdown-content">
-              <a class="dropdown-item" *ngFor="let location of Locations" (click)="setMatchLocation(location.name)">
+              <a class="dropdown-item" *ngFor="let location of locationForType" (click)="setMatchLocation(location.name)">
                 <div class="location-name-select">
                   {{location.name}}            
                 </div>

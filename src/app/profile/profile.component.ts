@@ -44,23 +44,26 @@ export class ProfileComponent {
 
 }
 
-addReputation(player: Player): void {
+addReputation(player: Player): void //add reputation to player
+{
   this.userService.addReputation(player.username);
 }
 
-onDescChange(){
-  console.log(this.description)
+onDescChange() //when profile description is updated user service is called to update profile description
+{
   this.userService.updateProfDesc(this.description, this.user.id);
   this.user.profDescr = this.description;
   localStorage.setItem('User', JSON.stringify(this.user));
 }
 
-leaveMatch(match: matchModel): void {
+leaveMatch(match: matchModel): void //leave match 
+{
   this.kickPlayer(this.user, match);
 }
 
-kickPlayer(player: Player, match: matchModel): void {
-  match.players = match.players.filter(p => p.username !== player.username);
+kickPlayer(player: Player, match: matchModel): void //remove player from match
+{
+  match.players = match.players.filter(p => p.username !== player.username); //find player in player list based on provided username
   this.matchService.kickPlayer(match.locationName.name, match.date.toString(), player.username);
 }
 

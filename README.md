@@ -1,27 +1,14 @@
 # AccedeProject
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.1.
+Accede was created as a web application for my Logate Academy final project.
+It uses everything I have learned over my course and expands upon it.
 
-## Development server
+## What is Accede
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Accede means to agree upon. It is an application that it meant to solve a problem I have faced living in Podgorica. Many of my friends and people in Montenegro play sports as a hobby, and it could be difficult to find people needed for a match.
+That is where Accede comes in. It is a web application designed to match you with other people who are in need of a teammate.
 
-## Code scaffolding
+## Accede Angular
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Front-end for Accede was done using Angular, thought my course we focused more on back-end so my css is very basic.
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
